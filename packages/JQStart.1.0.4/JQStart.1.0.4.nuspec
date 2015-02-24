@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>JQStart</id>
+    <version>1.0.4</version>
+    <title>JQStart</title>
+    <authors>@L3ny</authors>
+    <owners>@L3ny</owners>
+    <projectUrl>http://goo.gl/MObvC</projectUrl>
+    <iconUrl>https://nugetgallery.blob.core.windows.net/icons/JQStart.1.0.4.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This NuGet package contains: jquery-1.6.2-vsdoc.js, start.debug.js, start.js.--- With start.js you can load into your project Jquery latest, JqueryUI 1.8.14, jquery.validate 1.8.1 and jquery Mobile latest --- e.g. " Sys.require([Sys.scripts.jQuery, Sys.scripts.jQueryUI]); Sys.onReady(function () { $("p").css("border", "3px solid red"); });-----New in v1.4 you will get the latest release of JQuery and JQuery Mobile. Samples can be found on Project site. ----- New in v1.2 when you use jQueryUI, jQueryMobile or jQueryValidate Jquery it's automatycly added as a dependency. ----- While developing use jquery vsdoc.js and start.debug.js --- Start.js on production</description>
+    <summary>This NuGet package contains: jquery-1.6.2-vsdoc.js, start.debug.js, start.js.--- With start.js you can load into your project Jquery latest, JqueryUI 1.8.14, jquery.validate 1.8.1 and jquery Mobile latest --- e.g. " Sys.require([Sys.scripts.jQuery, Sys.scripts.jQueryUI]); Sys.onReady(function () { $("p").css("border", "3px solid red"); });-----New in v1.4 you will get the latest release of JQuery and JQuery Mobile. Samples can be found on Project site. ----- New in v1.2 when you use jQueryUI, jQueryMobile or jQueryValidate Jquery it's automatycly added as a dependency. ----- While developing use jquery vsdoc.js and start.debug.js --- Start.js on production</summary>
+  </metadata>
+</package>

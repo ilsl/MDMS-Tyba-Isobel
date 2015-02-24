@@ -16,7 +16,7 @@ namespace MDMSProject
         MySql.Data.MySqlClient.MySqlCommand cmd;
         MySql.Data.MySqlClient.MySqlDataReader reader;
         String queryStr;
-        static String generateUsername;
+        static String generateUsername, password;
         static String userIDa, caseIDa;
 
         protected void Page_Load(object sender, EventArgs e)
@@ -46,13 +46,6 @@ namespace MDMSProject
             {
                 methodStatus = false;
             }
-            //isobel ogg  if (InputVaildation.doesCaseExist(CaseNameTextBox.Text) == false)
-            //{
-            //    methodStatus = false;
-           //     CaseNameTextBox.Text = "enter the right case you div";
-            //}
-            
-
             if (methodStatus == true)
             {
 
@@ -75,7 +68,7 @@ namespace MDMSProject
                 cmd.Parameters.AddWithValue("?email", emailtextbox.Text);
                 cmd.Parameters.AddWithValue("?uname", generateUsername);
 
-                String password = generatePassword();
+                password = generatePassword();
                 
 
                 String saltHashReturned = PasswordHash.CreateHash(password);
@@ -149,51 +142,48 @@ namespace MDMSProject
 
         }
 
-        // GRAB USER_ID AND INSERT INTO THE MAP CASES TABLE
-        // ENTER CASE REFERENCE NUMBER AT REGISTRATION
-        // CHECK IF REF EXISTS IN ALL CASES TABLE - INPUT VALIDATION - RETURN TRUE
-        // IF YES, GRAB CASE_ID AND DUMP INTO MAP CASES TABLE
-        // IF NOT, STOP REGISTRATION FROM HAPPENING - MEANING CASE NEEDS TO BE CHECKED BEFORE ANYTHING.
+        // This method is used to grab the user and case ID to map the cases.  No longer needed because case number is no longer entered when registering a user  However, will be used again when opening a NEW CHAT and mapping the case and then mapping the messages.
+        private void getUserID()
+        {
+            String connString = System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString();
+            conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
+            conn.Open();
+            queryStr = "";
 
-        //ISOBEL ******public void getUserID()
-        //{
-        //    String connString = System.Configuration.ConfigurationManager.ConnectionStrings["projectConnectionString"].ToString();
-        //    conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-        //    conn.Open();
-        //    queryStr = "";
+            queryStr = "SELECT user_id FROM project.client WHERE username=?uname";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
+            cmd.Parameters.AddWithValue("?uname", generateUsername);
 
-        //    queryStr = "SELECT user_id FROM project.client WHERE username=?uname";
-        //    cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
-        //    cmd.Parameters.AddWithValue("?uname", generateUsername);
+            reader = cmd.ExecuteReader();
 
-        //    reader = cmd.ExecuteReader();
+            while (reader.HasRows && reader.Read())
+            {
+                userIDa = reader.GetString(reader.GetOrdinal("user_id"));
+            }
 
-        //    while (reader.HasRows && reader.Read())
-        //    {
-        //        userIDa = reader.GetString(reader.GetOrdinal("user_id"));
-        //    }
+            reader.Close();
 
-        //    reader.Close();
+            queryStr = "SELECT case_id FROM project.allcases WHERE case_name=?cname";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
+            cmd.Parameters.AddWithValue("?cname", "INPUT CASE REF");
 
-        //    queryStr = "SELECT case_id FROM project.allcases WHERE case_name=?cname";
-        //    cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
-        //    cmd.Parameters.AddWithValue("?cname", CaseNameTextBox.Text);
+            reader = cmd.ExecuteReader();
 
-        //    reader = cmd.ExecuteReader();
+            while (reader.HasRows && reader.Read())
+            {
+                caseIDa = reader.GetString(reader.GetOrdinal("case_id"));
+            }
 
-        //    while (reader.HasRows && reader.Read())
-        //    {
-        //        caseIDa = reader.GetString(reader.GetOrdinal("case_id"));
-        //    }
+            reader.Close();
 
-        //    reader.Close();
+            queryStr = "INSERT INTO project.mapcases (user_id, case_id) VALUES (?userIDa, ?caseIDa )";
+            cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
+            cmd.Parameters.AddWithValue("?userIDa", userIDa);
+            cmd.Parameters.AddWithValue("?caseIDa", caseIDa);
+            cmd.ExecuteReader();
+            conn.Close();
+        }
 
-        //    queryStr = "INSERT INTO project.mapcases (user_id, case_id) VALUES (?userIDa, ?caseIDa )";
-        //    cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
-        //    cmd.Parameters.AddWithValue("?userIDa", userIDa);
-        //    cmd.Parameters.AddWithValue("?caseIDa", caseIDa);
-        //    cmd.ExecuteReader();
-        //    conn.Close();
-        //}
     }
+
 }
