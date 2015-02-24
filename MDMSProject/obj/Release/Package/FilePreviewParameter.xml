@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="watermelonsareround" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\Isobel\ Jones\\Documents\\Visual\ Studio\ 2012\\Projects\\InstantApplication\\MDMSProject\\MDMSProject\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\Isobel\ Jones\\Documents\\Visual\ Studio\ 2012\\Projects\\InstantApplication\\MDMSProject\\MDMSProject\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="projectConnectionString-Web.config Connection String" description="" value="server=localhost;User Id=root;password=Lemons123;Persist Security Info=True;database=project" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Isobel\ Jones\\Documents\\Visual\ Studio\ 2012\\Projects\\InstantApplication\\MDMSProject\\MDMSProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='projectConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="LocalMySqlServer-Web.config Connection String" description="LocalMySqlServer Connection String used in web.config by the application to access the database." value="Server=localhost; user id=root; password=Lemons123; persist security info=True; database=project" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Isobel\ Jones\\Documents\\Visual\ Studio\ 2012\\Projects\\InstantApplication\\MDMSProject\\MDMSProject\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='LocalMySqlServer']/@connectionString" />
+  </parameter>
+</parameters>
