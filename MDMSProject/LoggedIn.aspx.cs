@@ -19,7 +19,11 @@ namespace MDMSProject
         MySql.Data.MySqlClient.MySqlDataReader reader;
         String queryStr;
         static String uID, cID, case_name, name;
-      
+         static HtmlInputFile fillMyFile;
+          static HttpPostedFile myFile = fillMyFile.PostedFile;
+           static int nFileLen = myFile.ContentLength;
+            static byte[] myData = new byte[nFileLen];
+          static  myFile.InputStream.Read(myData, 0, nFileLen);
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -137,7 +141,13 @@ namespace MDMSProject
             return IDs;
         }
 
-             // Writes file to the database
+        protected void button_Click(object sender, EventArgs e)
+        {
+            WriteToDB();
+        }
+
+
+        // Writes file to the database
          //HttpPostedFile myFile = fillMyFile.PostedFile;
          //   int nFileLen = myFile.ContentLength;
          //   byte[] myData = new byte[nFileLen];
