@@ -184,7 +184,7 @@
                                     <span>Add files...</span>
                                     <input type="file" id="file" name="files[]" multiple="" />
                                 </span>
-                                <asp:Button type ="submit" id="submit" class="btn btn-primary start" runat="server" OnClick="WriteToDB">
+                                <asp:Button type ="submit" id="submit" class="btn btn-primary start" runat="server">
                                      </asp:Button><i class="glyphicon glyphicon-upload"></i>
                                     <span>Start upload</span>
                                
