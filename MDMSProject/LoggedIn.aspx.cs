@@ -31,18 +31,14 @@ namespace MDMSProject
                 Response.BufferOutput = true;
                 Response.Redirect("Login.aspx", false);
             }
-            //else
-            //{
-            //    //userLabel.Text = name;
-            //}
-
+         
            
             // userID used to query the DB to return usersCurrentChats, variable cannot be called from ASPX, therefore parameter given from here.  Works correctly, as in only displays cases relevant to user.
             usersCurrentChats_SqlDataSource.SelectParameters.Add("uID", uID.ToString());
             usersCurrentChats_SqlDataSource.SelectCommand = "SELECT allcases.case_name, client.first_name, client.last_name FROM allcases, client, mapcases WHERE mapcases.user_id = @uID AND allcases.case_id = mapcases.case_id AND mapcases.user_id = client.user_id ";
 
             // GridView populated by DataTable which is populated by MySQL.  No DataSource required.
-            conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["projectConnectionString"].ToString());
+            conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString());
             cmd = new MySqlCommand("SELECT case_name FROM project.allcases;", conn);
             conn.Open();
             DataTable dataTable = new DataTable();
@@ -73,6 +69,16 @@ namespace MDMSProject
             }
         }
 
+        public void displayConversations(String user_ID_for_conversations, String case_ID_for_conversations)
+        {
+            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Remove(usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters["user_ID_for_conversations"]);
+            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Remove(usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters["case_ID_for_conversations"]);
+            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Add("user_ID_for_conversations", user_ID_for_conversations.ToString());
+            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Add("case_ID_for_conversations", case_ID_for_conversations.ToString());
+            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectCommand = "SELECT messages.alphauser_id, messages.case_id, messages.messages_text FROM mapcases, messages WHERE messages.case_id = @case_ID_for_conversations AND messages.case_id = mapcases.case_id AND messages.alphauser_id = @user_ID_for_conversations";
+
+        }
+
         // WHAT SHOULD HAPPEN WHEN ROW/CHAT IS CLICKED.
         protected void usersCurrentChats_OnSelectedIndexChanged(object sender, EventArgs e)
         {
@@ -87,6 +93,9 @@ namespace MDMSProject
                     // Grab the case name which is clicked, meaning user is working on this case now.
                     case_name = Convert.ToString(usersCurrentChats.SelectedRow.Cells[0].Text);
                     cID = getUserIDcaseID().ElementAt(1);
+                    //Isobel return the conversation table.
+                    displayConversations(uID, cID);
+
                 }
                 else
                 {
@@ -136,11 +145,6 @@ namespace MDMSProject
             // Return the array, therefore method can be called and assigned to varaible due to return - efficient.
             return IDs;
         }
-
-        //protected void button_Click(object sender, EventArgs e)
-        //{
-        //    WriteToDB();
-        //}
 
 
         // Writes file to the database

@@ -71,6 +71,5 @@ C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject
 C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\bin\Microsoft.Owin.Hosting.xml
 C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\bin\Microsoft.Owin.Security.xml
 C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\bin\Newtonsoft.Json.xml
-C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.csprojResolveAssemblyReference.cache
 C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.dll
 C:\Users\Tyba\Documents\Visual Studio 2012\Projects\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.pdb

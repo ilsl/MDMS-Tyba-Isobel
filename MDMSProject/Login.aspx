@@ -28,17 +28,14 @@
 		<script src="assets/js/bootstrap.min.js"></script>
 		<script src="assets/js/redactor.min.js"></script>
 
-		<script type="text/javascript">
-		    //<![CDATA[
-
-		    $(document).ready(function () {
-
-
-		    });
-
-		    //]]>
-		</script>
-
+		  <script type="text/javascript">
+		      //<![CDATA[
+		      $(document).ready(function () {
+		          $('#content').redactor();
+		      });
+		      //]]>
+    </script>
+   
 		<style>
 			html {
 				background: url("assets/images/login-bg.jpg");
@@ -60,13 +57,13 @@
   				</div>
   				<div class="panel-body">
 
-  					<form action="" method="post" accept-charset="utf-8" id="login" runat="server">
+  					<form method="post" accept-charset="utf-8" id="login" runat="server">
 
 						<div class="form-group">
 							<label for="username"><i class="fa fa-user"></i> Username</label>
                           
 							<div class="controls">
-								<asp:TextBox ID="usernametextbox" Text="Enter user name here" runat="server" class="form-control input-lg" onblur="if(this.value=='')this.value=this.defaultValue;" onfocus="if(this.value==this.defaultValue)this.value='';"/>
+								<asp:TextBox ID="usernametextbox" Text="Enter user name here" runat="server" OnFocus="if(this.value==this.defaultValue)this.value='';" OnBlur="if(this.value=='')this.value=this.defaultValue;" class="form-control input-lg" />
 							
                             </div>
                            
@@ -83,7 +80,7 @@
 						<div class="form-group" style="margin-bottom: 0;">
 							<div class="controls">
 								<%--<button type="submit" id="submitButton" class="btn btn-lg btn-primary" style="width:100%;">--%>
-                                <asp:Button ID = "submitButton" Text = "Log in" runat="server"  OnClick="submitEventMethod" class="btn btn-lg btn-primary"/> 
+                                <asp:Button ID = "submitButton" Text = "Log in" runat="server"  OnClick="submitEventMethod" class="btn btn-lg btn-primary" Style="width: 100%;" /> 
                          	</div>
 						</div>
 
