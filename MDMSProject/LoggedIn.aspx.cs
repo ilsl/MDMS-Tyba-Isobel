@@ -19,12 +19,8 @@ namespace MDMSProject
         MySql.Data.MySqlClient.MySqlDataReader reader;
         String queryStr;
         static String uID, cID, case_name, name;
-         static HtmlInputFile fillMyFile;
-          static HttpPostedFile myFile = fillMyFile.PostedFile;
-           static int nFileLen = myFile.ContentLength;
-            static byte[] myData = new byte[nFileLen];
-          static  myFile.InputStream.Read(myData, 0, nFileLen);
-
+         protected HtmlInputFile fillMyFile;
+         
         protected void Page_Load(object sender, EventArgs e)
         {
             name = (String)Session["uname"];
@@ -141,10 +137,10 @@ namespace MDMSProject
             return IDs;
         }
 
-        protected void button_Click(object sender, EventArgs e)
-        {
-            WriteToDB();
-        }
+        //protected void button_Click(object sender, EventArgs e)
+        //{
+        //    WriteToDB();
+        //}
 
 
         // Writes file to the database
