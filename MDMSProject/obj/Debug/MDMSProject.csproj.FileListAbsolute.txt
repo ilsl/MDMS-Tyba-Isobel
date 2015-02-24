@@ -35,3 +35,6 @@ C:\Users\Isobel Jones\Documents\Visual Studio 2012\Projects\InstantApplication\M
 C:\Users\Isobel Jones\Documents\Visual Studio 2012\Projects\InstantApplication\MDMSProject\MDMSProject\bin\Newtonsoft.Json.xml
 C:\Users\Isobel Jones\Documents\Visual Studio 2012\Projects\InstantApplication\MDMSProject\MDMSProject\obj\Debug\MDMSProject.dll
 C:\Users\Isobel Jones\Documents\Visual Studio 2012\Projects\InstantApplication\MDMSProject\MDMSProject\obj\Debug\MDMSProject.pdb
+C:\Users\Isobel Jones\Documents\GitHub\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.csprojResolveAssemblyReference.cache
+C:\Users\Isobel Jones\Documents\GitHub\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.dll
+C:\Users\Isobel Jones\Documents\GitHub\MDMS-Tyba-Isobel\MDMSProject\obj\Debug\MDMSProject.pdb
