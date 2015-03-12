@@ -25,7 +25,7 @@ namespace MDMSProject
                 string subject = "Login Confirmation";
                 string body = "Dear " + firstname + " " + lastname + ",\n\n" + "Here are your login details.\n\n";
                 body += "Username: " + username + "\n";
-                body += "Password: " + password + "\n\n\nThank you.\nEclipse Legal Systems";
+                body += "Password: " + password + "\n\nClick the following link to log in: http://localhost:64999/Login.aspx \n\nThank you.\nEclipse Legal Systems";
 
                 // smtp settings
                 var smtp = new System.Net.Mail.SmtpClient();

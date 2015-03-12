@@ -9,6 +9,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace MDMSProject
 {
@@ -19,8 +20,8 @@ namespace MDMSProject
         MySql.Data.MySqlClient.MySqlDataReader reader;
         String queryStr;
         static String uID, cID, case_name, name;
-         protected HtmlInputFile fillMyFile;
-         
+        protected HtmlInputFile fillMyFile;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             name = (String)Session["uname"];
@@ -31,13 +32,12 @@ namespace MDMSProject
                 Response.BufferOutput = true;
                 Response.Redirect("Login.aspx", false);
             }
-         
-           
-            // userID used to query the DB to return usersCurrentChats, variable cannot be called from ASPX, therefore parameter given from here.  Works correctly, as in only displays cases relevant to user.
+
+            // userID used to query the DB to return usersCurrentChats, variable cannot be called from ASPX, therefore parameter given from here. Works correctly, as in only displays cases relevant to user.
             usersCurrentChats_SqlDataSource.SelectParameters.Add("uID", uID.ToString());
             usersCurrentChats_SqlDataSource.SelectCommand = "SELECT allcases.case_name, client.first_name, client.last_name FROM allcases, client, mapcases WHERE mapcases.user_id = @uID AND allcases.case_id = mapcases.case_id AND mapcases.user_id = client.user_id ";
 
-            // GridView populated by DataTable which is populated by MySQL.  No DataSource required.
+            // GridView populated by DataTable which is populated by MySQL. No DataSource required.
             conn = new MySqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["WebAppConnString"].ToString());
             cmd = new MySqlCommand("SELECT case_name FROM project.allcases;", conn);
             conn.Open();
@@ -55,9 +55,7 @@ namespace MDMSProject
             return name;
         }
 
-
-
-        //  This method runs when the page loads, iterating through the IF statement for every row in grid.
+        // This method runs when the page loads, iterating through the IF statement for every row in grid.
         // WHAT SHOULD HAPPEN WHEN MOUSE HOVERED OVER THE ROWS/CASES.
         protected void usersCurrentChats_OnRowDataBound(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
         {
@@ -71,11 +69,11 @@ namespace MDMSProject
 
         public void displayConversations(String user_ID_for_conversations, String case_ID_for_conversations)
         {
-            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Remove(usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters["user_ID_for_conversations"]);
-            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Remove(usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters["case_ID_for_conversations"]);
-            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Add("user_ID_for_conversations", user_ID_for_conversations.ToString());
-            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectParameters.Add("case_ID_for_conversations", case_ID_for_conversations.ToString());
-            usersCurrentChatsIsobel_SqlDataSourceisobel.SelectCommand = "SELECT messages.alphauser_id, messages.case_id, messages.messages_text FROM mapcases, messages WHERE messages.case_id = @case_ID_for_conversations AND messages.case_id = mapcases.case_id AND messages.alphauser_id = @user_ID_for_conversations";
+            caseMessages_SqlDataSource.SelectParameters.Remove(caseMessages_SqlDataSource.SelectParameters["user_ID_for_conversations"]);
+            caseMessages_SqlDataSource.SelectParameters.Remove(caseMessages_SqlDataSource.SelectParameters["case_ID_for_conversations"]);
+            caseMessages_SqlDataSource.SelectParameters.Add("user_ID_for_conversations", user_ID_for_conversations.ToString());
+            caseMessages_SqlDataSource.SelectParameters.Add("case_ID_for_conversations", case_ID_for_conversations.ToString());
+            caseMessages_SqlDataSource.SelectCommand = "SELECT messages.alphauser_id, messages.case_id, messages.messages_text FROM mapcases, messages WHERE messages.case_id = @case_ID_for_conversations AND messages.case_id = mapcases.case_id AND messages.alphauser_id = @user_ID_for_conversations";
 
         }
 
@@ -99,7 +97,7 @@ namespace MDMSProject
                 }
                 else
                 {
-                    // OMG this is so important!  This basically removes the highlight on the current row and onto the next row.  Without this, all rows would become highlighted.  With this, one a single row remains highlighted. Do not remove.
+                    // OMG this is so important! This basically removes the highlight on the current row and onto the next row. Without this, all rows would become highlighted. With this, one a single row remains highlighted. Do not remove.
                     row.BackColor = ColorTranslator.FromHtml("#FFFFFF");
                     row.ToolTip = "Click to select";
                 }
@@ -147,36 +145,39 @@ namespace MDMSProject
         }
 
 
-        // Writes file to the database
-         //HttpPostedFile myFile = fillMyFile.PostedFile;
-         //   int nFileLen = myFile.ContentLength;
-         //   byte[] myData = new byte[nFileLen];
-         //   myFile.InputStream.Read(myData, 0, nFileLen);
-        public void WriteToDB(String strName, String strType, ref byte[] Buffer)
+        protected void Button1_Click(object sender, EventArgs e)
         {
-
-            // Create connection
-
             String connString = System.Configuration.ConfigurationManager.ConnectionStrings["projectConnectionString"].ToString();
             conn = new MySql.Data.MySqlClient.MySqlConnection(connString);
-            // Open Connection
-            conn.Open();
-            queryStr = "INSERT INTO `project`.`documents` (`alphauser_id`, `document_type`, `case_id`, `document_name`, `document_size`) VALUES (?uname, ?ContentType, ?cname, ?FileName, ?ContentLength)";
-           
+
+            string filename = Path.GetFileName(FileUpload.PostedFile.FileName);
+            string contentType = FileUpload.PostedFile.ContentType;
+
+            Stream fs = FileUpload.PostedFile.InputStream;
+            BinaryReader br = new BinaryReader(fs);
+            byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
+            queryStr = "INSERT INTO `project`.`documents` (`document_type`, `document_name`, `document_contents`, `betauser_id`, `betacase_id`) VALUES (@Type, @FileName, @File, @uname, @cname)";
             cmd = new MySql.Data.MySqlClient.MySqlCommand(queryStr, conn);
-            cmd.Parameters.AddWithValue("?ContentLength", Buffer.Length);
-            cmd.Parameters.AddWithValue("?ContentType", strType);
-            cmd.Parameters.AddWithValue("?FileName", strName);
-            cmd.Parameters.AddWithValue("?InputStream", Buffer);
-            cmd.Parameters.AddWithValue("?uname", uID);
-            cmd.Parameters.AddWithValue("?cname", cID);
-            //method2
-            //cmd.Parameters.AddWithValue("?ContentLength", myFile.ContentLength);
-            //cmd.Parameters.AddWithValue("?ContentType", myFile.ContentType);
-            //cmd.Parameters.AddWithValue("?FileName", myFile.FileName);
-            //cmd.Parameters.AddWithValue("?InputStream", myFile.InputStream);
-            conn.Close();
-            
+            cmd.Parameters.AddWithValue("@Type", contentType);
+            cmd.Parameters.AddWithValue("@FileName", filename);
+            cmd.Parameters.AddWithValue("@File", bytes);
+            cmd.Parameters.AddWithValue("@uname", uID);
+            cmd.Parameters.AddWithValue("@cname", cID);
+
+            try
+            {
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+                lblMessage.Text = "File Uploaded Successfully";
+            }
+            catch (MySql.Data.MySqlClient.MySqlException ex)
+            {
+                lblMessage.ForeColor = System.Drawing.Color.Red;
+                lblMessage.Text = ex.ToString();
+            }
         }
     }
 }

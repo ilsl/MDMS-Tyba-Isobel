@@ -90,8 +90,15 @@ namespace MDMSProject
                 conn.Close();
                // getUserID();
                 SendMail.Email(firstnametextbox.Text, lastnametextbox.Text, emailtextbox.Text, generateUsername, password);
+                  ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "alertMessage", "alert('Registration successful.  Client has been emailed with their login details.')", true);
+
+                //Response.BufferOutput = true;
+                //Response.Redirect("Login.aspx", false);
+
             }
-        }
+
+            }
+        
         // This is the original way to register a user without any form of encryption.
         //private void registeruser()
         //{
